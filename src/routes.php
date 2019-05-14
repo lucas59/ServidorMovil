@@ -15,8 +15,9 @@ return function (App $app) {
 
 	$container = $app->getContainer();
 
-	$app->get('/', function (Request $request, Response $response, array $args) use ($container) {
+	$app->get('/', function (Request $request, Response $response, array $args) {
        
+       echo "1";
 		
 	});
 };
