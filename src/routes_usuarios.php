@@ -11,10 +11,11 @@ return function (App $app){
 	$container = $app->getContainer(); 
 
 	$app->post('/usuario/nuevo',function($request,$response,$args) use ($container){
-		$data = $request->getParams();
+		/*$data = $request->getParams();
 		$email=$data['correo'];
 		$pass=$data['pass'];
-		return  ctr_usuario::altaUser($email,$pass);	
+		return  ctr_usuario::altaUser($email,$pass);	*/
+		return "true";
 	});
 
 	$app->get('/validacion/[{token}]',function($request,$response,$args){
