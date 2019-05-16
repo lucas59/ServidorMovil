@@ -5,7 +5,7 @@ use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-require_once 'controladores/ctr_usuarios.php';
+require_once 'controladores/ctr_contenido.php';
 
 
 return function (App $app){
