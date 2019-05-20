@@ -11,19 +11,29 @@ return function (App $app){
 	$container = $app->getContainer(); 
 
 	$app->post('/usuario/nuevo',function($request,$response,$args) use ($container){
-		/*$data = $request->getParams();
+		$data = $request->getParams();
 		$email=$data['correo'];
 		$pass=$data['pass'];
-		return  ctr_usuario::altaUser($email,$pass);	*/
-		return "true";
-	});
+		$myObj = new \stdClass();
+		
+		if(ctr_usuario::altaUser($email,$pass)){
+			$myObj->retorno = true; //o false
+		}else{
+			$myObj->retorno = false; //o false
+		}
+		return json_encode($myObj);
 
-	$app->get('/validacion/[{token}]',function($request,$response,$args){
-		$params=$request->getParams();
-		$token = $params['token'];
+	})->setName("NuevoUsuario");
 
-		echo ctr_usuario::activarUsuario($token);
-		echo "string";
+	$app->get('/validacion/{token}',function($request,$response,$args){
+		$token = $args['token'];
+		$myObj = new \stdClass();
+		if (ctr_usuario::activarUsuario($token)) {
+			$myObj->retorno = true; 
+		}else{
+			$myObj->retorno = false;
+		}
+		return json_encode($myObj);
 	});
 
 }?>
