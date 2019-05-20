@@ -36,4 +36,20 @@ return function (App $app){
 		return json_encode($myObj);
 	});
 
+$app->post('/usuario/login',function($request,$response,$args) use ($container){
+		$data = $request->getParams();
+		$email=$data['correo'];
+		$pass=$data['pass'];
+		$myObj = new \stdClass();
+		
+		if(ctr_usuario::login($email,$pass)){
+			$myObj->retorno = true; //o false
+		}else{
+			$myObj->retorno = false; //o false
+		}
+		return json_encode($myObj);
+
+	})->setName("NuevoUsuario");
+
+
 }?>

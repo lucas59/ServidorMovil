@@ -28,6 +28,17 @@ class ctr_usuario {
 		}
 	}
 
+	public function login($email,$pass){
+		$existe = usuario::verificarExistencia($email);
+		if($existe == "1"){
+			return usuario::login($email,$pass);
+		}else{
+			return false;
+		}
+	}
+
+
+
 
 	public function activarUsuario($token){
 		$validacion = validacion::obtenerValidacion($token);
