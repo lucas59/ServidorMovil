@@ -52,4 +52,11 @@ $app->post('/usuario/login',function($request,$response,$args) use ($container){
 	})->setName("NuevoUsuario");
 
 
+	$app->get('/usuario/{correo}',function($request,$response,$args){
+		$email = $args['correo'];
+		$myObj = new \stdClass();
+		return json_encode(ctr_usuario::obtenerUsuario($email));
+	});
+
+
 }?>

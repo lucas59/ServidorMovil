@@ -37,6 +37,10 @@ class ctr_usuario {
 		}
 	}
 
+	public function obtenerUsuario($correo){
+		return usuario::obtenerUsuario($correo);
+	}
+
 
 
 

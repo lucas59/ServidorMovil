@@ -45,7 +45,7 @@ class usuario{
 		$sql->bind_param("s",$email);
 		$sql->execute();
 		$resultado = $sql->get_result();
-		$usuario=json_encode($resultado->fetch_object());
+		$usuario=$resultado->fetch_object();
 		if($usuario->estado){
 			if(sha1($pass)==$usuario->contrasenia){
 				return true;
@@ -65,6 +65,15 @@ class usuario{
 		}else{
 			return false;
 		} 
+	}
+
+	public function obtenerUsuario($correo){
+		$sql=DB::conexion()->prepare("SELECT correo,nombre,apellido,estado,edad FROM usuario WHERE correo = ? ");
+		$sql->bind_param('s',$correo);
+		$sql->execute();
+		$resultado = $sql->get_result();
+		return $resultado->fetch_object();
+
 	}
 
 } ?>
