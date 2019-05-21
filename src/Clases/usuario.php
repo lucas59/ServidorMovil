@@ -43,6 +43,22 @@ class usuario{
 		}
 	}
 
+	public function login($email,$pass){
+		$sql = DB::conexion()->prepare("SELECT * FROM usuario WHERE correo = ?");
+		$sql->bind_param("s",$email);
+		$sql->execute();
+		$resultado = $sql->get_result();
+		$usuario=$resultado->fetch_object();
+		if($usuario->estado){
+			if(sha1($pass)==$usuario->contrasenia){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
 	public function activarUsuario($email){
 		$estado = 1;
 		$sql=DB::conexion()->prepare("UPDATE `usuario` SET `estado` = ? WHERE `usuario`.`correo` = ?");
@@ -52,6 +68,15 @@ class usuario{
 		}else{
 			return false;
 		} 
+	}
+
+	public function obtenerUsuario($correo){
+		$sql=DB::conexion()->prepare("SELECT correo,nombre,apellido,estado,edad FROM usuario WHERE correo = ? ");
+		$sql->bind_param('s',$correo);
+		$sql->execute();
+		$resultado = $sql->get_result();
+		return $resultado->fetch_object();
+
 	}
 
 } ?>
