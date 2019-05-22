@@ -14,12 +14,15 @@ return function (App $app){
 		$data = $request->getParams();
 		$email=$data['correo'];
 		$pass=$data['pass'];
+
+	
+
 		$myObj = new \stdClass();
 		
 		if(ctr_usuario::altaUser($email,$pass)){
-			$myObj->retorno = true; //o false
+			$myObj->retorno = true; 
 		}else{
-			$myObj->retorno = false; //o false
+			$myObj->retorno = false;
 		}
 		return json_encode($myObj);
 

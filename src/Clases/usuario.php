@@ -32,6 +32,9 @@ class usuario{
 		$edad = null;
 		$estado = 0;
 		$sql = DB::conexion()->prepare("INSERT INTO `usuario` (`correo`, `apellido`, `contrasenia`, `edad`, `nombre`, `estado`) VALUES (?,?,?,?,?,?)");
+    if ($sql === false) {
+        return [ 'ok' => 'false' ];
+    }
 		$sql->bind_param('sssisi',$email,$apellido,$contrasenia,$edad,$nombre,$estado);
 		if($sql->execute()){
 			return true;

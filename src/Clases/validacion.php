@@ -21,15 +21,18 @@ class validacion {
 	public function registrarValidacion($email,$token){
 		$id=null;
 		$consulta=DB::conexion()->prepare("INSERT INTO `validacion` (`id`, `correo`, `token`) VALUES (?,?,?)");
+		if ($consulta === false) {
+			return [ 'ok' => 'false' ];
+		}
 		$consulta->bind_param("iss",$id,$email,$token);
 		/*
 		$consulta->bind_param('s',$email);		
 		$consulta->execute();
 		*/
 		if ($consulta->execute()){
-			return true;
+			return [ 'ok' => 'false' ];
 		}else{
-			return false;
+			return [ 'ok' => 'false' ];
 		}
 
 	}
@@ -89,9 +92,11 @@ class validacion {
 		//$mail->addAttachment('images/phpmailer_mini.png');
 //send the message, check for errors
 		if ($mail->send()) {
-			return true;
+			$myObj->retorno = true;
+			return json_encode($myObj);
 		}else{
-			return false;
+			$myObj->retorno = false;
+			return json_encode($myObj);
 		}
 
 	}
