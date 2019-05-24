@@ -53,5 +53,10 @@ class ctr_usuario {
 		}
 	}
 
+	public function desactivarUsuario($email){
+		return usuario::desactivarUsuario($email);
+
+	}
+
 
 } ?>

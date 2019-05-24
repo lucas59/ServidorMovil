@@ -61,5 +61,13 @@ $app->post('/usuario/login',function($request,$response,$args) use ($container){
 		return json_encode(ctr_usuario::obtenerUsuario($email));
 	});
 
+	$app->get('/usuario/desactivar/{correo}',function($request,$response,$args){
+		$email = $args['correo'];
+		$myObj = new \stdClass();
+		return json_encode(ctr_usuario::desactivarUsuario($email));
+	});
+
+
+
 
 }?>

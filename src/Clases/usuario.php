@@ -76,7 +76,16 @@ class usuario{
 		$sql->execute();
 		$resultado = $sql->get_result();
 		return $resultado->fetch_object();
+	}
 
+	public function desactivarUsuario($email){
+		$sql=DB::conexion()->prepare("UPDATE usuario SET estado = 0 WHERE correo = ?");
+		$sql->bind_param("s",$email);
+		if ($sql->execute()) {
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 } ?>
