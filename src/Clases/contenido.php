@@ -10,10 +10,7 @@ class contenido {
 	private $genero;
 	private $comentarios = array();
 
-	function __construct(argument)
-	{
- 		# code...
-	}
+	
 
 	public function getId(){
 		return $this->id;
@@ -51,6 +48,17 @@ class contenido {
 		$this->comentarios=$comentarios;
 	}
 
+	public function Buscar_contenido($id){
+		$respuesta=null;
+		$consulta = DB::conexion()->prepare("SELECT * FROM contenido WHERE id = '" . $id . "'");
+		$consulta->execute();
+		$resultado = $consulta->get_result();
+		if (mysqli_num_rows($resultado) >= 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
 	
 } ?>

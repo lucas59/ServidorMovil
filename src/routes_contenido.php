@@ -23,15 +23,19 @@ $app->post('/contenido/comentario',function($request,$response,$args) use ($cont
 		$capitulo_id=$data['capitulo_id'];
 		$contenido_id=$data['contenido_id'];
 		$usuario=$data['usuario'];
+		$fecha=$data['fecha'];
+		$genero=$data['genero'];
+		$titulo_elemento=$data['titulo_elemento'];
 		$myObj = new \stdClass();
-		if(ctr_contenido::Comentario($texto,$titulo,$capitulo_id,$contenido_id,$usuario)){
+		$validacion = ctr_contenido::Comentario($texto,$titulo,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento);
+		if($validacion == "1"){
 			$myObj->retorno = true; 
 		}else{
 			$myObj->retorno = false; 
 		}
 		return json_encode($myObj);
 
-	})->setName("NuevoUsuario");
+	})->setName("Comentario");
 
 
 
