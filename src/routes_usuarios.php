@@ -15,7 +15,7 @@ return function (App $app){
 		$email=$data['correo'];
 		$pass=$data['pass'];
 
-	
+
 
 		$myObj = new \stdClass();
 		
@@ -39,7 +39,7 @@ return function (App $app){
 		return json_encode($myObj);
 	});
 
-$app->post('/usuario/login',function($request,$response,$args) use ($container){
+	$app->post('/usuario/login',function($request,$response,$args) use ($container){
 		$data = $request->getParams();
 		$email=$data['correo'];
 		$pass=$data['pass'];
@@ -64,7 +64,13 @@ $app->post('/usuario/login',function($request,$response,$args) use ($container){
 	$app->get('/usuario/desactivar/{correo}',function($request,$response,$args){
 		$email = $args['correo'];
 		$myObj = new \stdClass();
-		return json_encode(ctr_usuario::desactivarUsuario($email));
+
+		if(ctr_usuario::desactivarUsuario($email)){
+			$myObj->retorno = true; //o false
+		}else{
+			$myObj->retorno = false; //o false
+		}
+		return json_encode($myObj);
 	});
 
 
