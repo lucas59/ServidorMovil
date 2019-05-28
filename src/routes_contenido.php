@@ -35,7 +35,7 @@ return function (App $app){
 
 	})->setName("Comentario");
 
-	$app->get('/contenido/lista_comentario',function($request,$response,$args) use ($container){
+	$app->get('/contenido/lista_comentario',function($request,$response,$args) use ($container){	
 		$id=$request->getQueryParam("id");
 		$validacion = ctr_contenido::Lista_Comentario($id);
 		return $validacion;
