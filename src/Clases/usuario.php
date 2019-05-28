@@ -32,9 +32,9 @@ class usuario{
 		$edad = null;
 		$estado = 0;
 		$sql = DB::conexion()->prepare("INSERT INTO `usuario` (`correo`, `apellido`, `contrasenia`, `edad`, `nombre`, `estado`) VALUES (?,?,?,?,?,?)");
-    if ($sql === false) {
-        return [ 'ok' => 'false' ];
-    }
+		if ($sql === false) {
+			return [ 'ok' => 'false' ];
+		}
 		$sql->bind_param('sssisi',$email,$apellido,$contrasenia,$edad,$nombre,$estado);
 		if($sql->execute()){
 			return true;
@@ -86,6 +86,19 @@ class usuario{
 		}else{
 			return false;
 		}
+	}
+	public function obtenerUsuarioPorToken($token){
+		$sql=DB::conexion()->prepare("SELECT U.* FROM usuario AS U, validacion AS V WHERE U.correo=V.correo AND V.token=?");
+		$sql->bind_param("s",$token);
+		$sql->execute();
+		$resultado = $sql->get_result();
+		return $resultado->fetch_object();
+	}
+	public function nuevoUsuario2($nombre,$apellido,$edad,$correo,$foto){
+		$sql=DB::conexion()->prepare("UPDATE `usuario` SET `foto` = ?, `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ? ");
+		$sql->bind_param("ssiss",$foto,$apellido,$edad,$nombre,$correo);
+		return $sql->execute();
+
 	}
 
 } ?>

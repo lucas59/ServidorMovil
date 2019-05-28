@@ -28,6 +28,28 @@ return function (App $app){
 
 	})->setName("NuevoUsuario");
 
+
+
+	$app->post('/usuario/nuevo2',function($request,$response,$args) use ($container){
+		$data = $request->getParams();
+		$nombre=$data['nombre'];
+		$apellido=$data['apellido'];
+		$edad=$data['edad'];
+		$token=$data['token'];
+		$foto = $data['foto'];
+
+		$myObj = new \stdClass();
+	
+		if(ctr_usuario::altaUser2($nombre,$apellido,$edad,$token,$foto)){
+			$myObj->retorno = true; 
+		}else{
+			$myObj->retorno = false;
+		}
+		return json_encode($myObj);
+
+	})->setName("NuevoUsuario2");
+
+
 	$app->get('/validacion/{token}',function($request,$response,$args){
 		$token = $args['token'];
 		$myObj = new \stdClass();

@@ -28,6 +28,15 @@ class ctr_usuario {
 		}
 	}
 
+	public function altaUser2($nombre,$apellido,$edad,$token,$foto){
+		$usuario = usuario::obtenerUsuarioPorToken($token);
+		if($usuario){
+			return usuario::nuevoUsuario2($nombre,$apellido,$edad,$usuario->correo,$foto);
+		}else{
+			return false;
+		}
+	}
+
 	public function login($email,$pass){
 		$existe = usuario::verificarExistencia($email);
 		if($existe == "1"){
