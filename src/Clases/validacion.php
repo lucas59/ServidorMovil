@@ -51,6 +51,8 @@ class validacion {
 	public function enviarMail($email,$token){
 		$hash = "Codigo de validacion: ";
 		$hash .= $token;
+		
+		$myObj = new \stdClass();
 //Create a new PHPMailer instance
 		$mail = new PHPMailer;
 //Tell PHPMailer to use SMTP

@@ -15,8 +15,6 @@ return function (App $app){
 		$email=$data['correo'];
 		$pass=$data['pass'];
 
-
-
 		$myObj = new \stdClass();
 		
 		if(ctr_usuario::altaUser($email,$pass)){
