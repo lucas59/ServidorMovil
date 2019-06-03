@@ -22,7 +22,8 @@ return function (App $app){
 		}else{
 			$myObj->retorno = false;
 		}
-		return json_encode($myObj);
+		$algo=json_encode($myObj);
+		return $algo;
 
 	})->setName("NuevoUsuario");
 
@@ -73,7 +74,32 @@ return function (App $app){
 		return json_encode($myObj);
 
 	})->setName("NuevoUsuario");
-
+	
+	$app->get('/usuario/SeguirElemento',function($request,$response,$args) use ($container){	
+		$correo=$request->getQueryParam("correo");
+		$titulo=$request->getQueryParam("titulo");
+		$insertar = ctr_usuario::SeguirElemento($correo,$titulo);
+		$myObj = new \stdClass();
+		if($insertar == "1"){
+			$myObj->retorno = true; 
+		}else{
+			$myObj->retorno = false; 
+		}
+		return json_encode($myObj);
+	})->setName("SeguirElemento");
+	
+	$app->get('/usuario/DejarSeguirElemento',function($request,$response,$args) use ($container){	
+		$correo=$request->getQueryParam("correo");
+		$titulo=$request->getQueryParam("titulo");
+		$insertar = ctr_usuario::DejarSeguirElemento($correo,$titulo);
+		$myObj = new \stdClass();
+		if($insertar == "1"){
+			$myObj->retorno = true; 
+		}else{
+			$myObj->retorno = false; 
+		}
+		return json_encode($myObj);
+	})->setName("DejarSeguirElemento");
 
 	$app->get('/usuario/{correo}',function($request,$response,$args){
 		$email = $args['correo'];
@@ -92,8 +118,8 @@ return function (App $app){
 		}
 		return json_encode($myObj);
 	});
-
-
-
+	
+	
+	
 
 }?>

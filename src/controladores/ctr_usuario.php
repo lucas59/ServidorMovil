@@ -10,7 +10,7 @@ class ctr_usuario {
 
 
 
-	public function altaUser($email,$pass){
+	public static function altaUser($email,$pass){
 		$existe = usuario::verificarExistencia($email);
 		if($existe == "0"){
 			$inserUsu = usuario::nuevoUsuario($email,sha1($pass));
@@ -65,6 +65,15 @@ class ctr_usuario {
 	public function desactivarUsuario($email){
 		return usuario::desactivarUsuario($email);
 
+	}
+
+	public function SeguirElemento($correo,$titulo){
+		return $resultado = Usuario::SeguirElemento($correo,$titulo);
+		
+	}
+	public function DejarSeguirElemento($correo,$titulo){
+		return $resultado = Usuario::DejarSeguirElemento($correo,$titulo);
+		
 	}
 
 

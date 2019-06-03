@@ -40,8 +40,5 @@ return function (App $app){
 		$validacion = ctr_contenido::Lista_Comentario($id);
 		return $validacion;
 	})->setName("Lista_comentario");
-
-
-
 }
 ?>
