@@ -101,52 +101,24 @@ class usuario{
 
 	}
 
-	public function SeguirElemento($correo,$titulo){
-		$sql2=DB::conexion()->prepare("SELECT id FROM contenido WHERE titulo=?");
-		$sql2->bind_param("s",$titulo);
-		$sql2->execute();
-		$resultado2 = $sql2->get_result();
-		if($resultado2->num_rows >0 ){
-			for ($num_fila2 = $resultado2->num_rows - 1; $num_fila2 >= 0; $num_fila2--) {
-				$resultado2->data_seek($num_fila2);
-				$fila2 = $resultado2->fetch_assoc();
-			}
-		
-		$id=$fila2['id'];
+	public function SeguirElemento($correo,$id){
 		$sql=DB::conexion()->prepare("INSERT INTO usuario_contenido (Usuario_correo,sigue_id) VALUES (?,?)");
-		$sql->bind_param("ss",$correo,$id);
+		$sql->bind_param("si",$correo,$id);
 		if ($sql->execute()) {
 			return 1;
 		}else{
 			return 0;
 		}
-	}else{
-		return 0;
-	}
 	}
 
-	public function DejarSeguirElemento($correo,$titulo){
-		$sql2=DB::conexion()->prepare("SELECT id FROM contenido WHERE titulo=?");
-		$sql2->bind_param("s",$titulo);
-		$sql2->execute();
-		$resultado2 = $sql2->get_result();
-		if($resultado2->num_rows >0 ){
-			for ($num_fila2 = $resultado2->num_rows - 1; $num_fila2 >= 0; $num_fila2--) {
-				$resultado2->data_seek($num_fila2);
-				$fila2 = $resultado2->fetch_assoc();
-			}
-		
-		$id=$fila2['id'];
+	public function DejarSeguirElemento($correo,$id){
 		$sql=DB::conexion()->prepare("DELETE FROM usuario_contenido WHERE Usuario_correo = ? AND sigue_id = ?");
-		$sql->bind_param("ss",$correo,$id);
+		$sql->bind_param("si",$correo,$id);
 		if ($sql->execute()) {
 			return 1;
 		}else{
 			return 0;
 		}
-	}else{
-		return 0;
-	}
 	}
 
 } ?>

@@ -77,8 +77,8 @@ return function (App $app){
 	
 	$app->get('/usuario/SeguirElemento',function($request,$response,$args) use ($container){	
 		$correo=$request->getQueryParam("correo");
-		$titulo=$request->getQueryParam("titulo");
-		$insertar = ctr_usuario::SeguirElemento($correo,$titulo);
+		$id=$request->getQueryParam("id");
+		$insertar = ctr_usuario::SeguirElemento($correo,$id);
 		$myObj = new \stdClass();
 		if($insertar == "1"){
 			$myObj->retorno = true; 
@@ -90,8 +90,8 @@ return function (App $app){
 	
 	$app->get('/usuario/DejarSeguirElemento',function($request,$response,$args) use ($container){	
 		$correo=$request->getQueryParam("correo");
-		$titulo=$request->getQueryParam("titulo");
-		$insertar = ctr_usuario::DejarSeguirElemento($correo,$titulo);
+		$id=$request->getQueryParam("id");
+		$insertar = ctr_usuario::DejarSeguirElemento($correo,$id);
 		$myObj = new \stdClass();
 		if($insertar == "1"){
 			$myObj->retorno = true; 
