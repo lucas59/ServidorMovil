@@ -101,4 +101,15 @@ class usuario{
 
 	}
 
+
+	public function obtenerUsuarioParaNotificacion($email){
+
+		$sql = DB::conexion()->prepare("SELECT * FROM usuario WHERE correo = ?");
+		$sql->bind_param('s', $email);
+		$sql->execute();
+
+		$resultado = $sql->get_result();
+		return $resultado->fetch_object();
+	}
+
 } ?>

@@ -67,5 +67,5 @@ class ctr_usuario {
 
 	}
 
-
-} ?>
+} 
+?>
