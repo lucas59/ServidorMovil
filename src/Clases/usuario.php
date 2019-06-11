@@ -11,7 +11,7 @@ class usuario{
 	private $comentarios = array();
 	private $contenido = array();
 	
-	public function verificarExistencia($email){
+	public static function verificarExistencia($email){
 		$retorno=null;
 		$consulta = DB::conexion()->prepare("SELECT * FROM usuario WHERE correo = ?");
 		$consulta->bind_param('s',$email);		
@@ -25,7 +25,7 @@ class usuario{
 		return $retorno;
 	}
 
-	public function nuevoUsuario($email,$contrasenia){
+	public static function nuevoUsuario($email,$contrasenia){
 		$apellido = null;
 		$nombre = null;
 		$apellido = null;
@@ -101,7 +101,6 @@ class usuario{
 
 	}
 
-
 	public function obtenerUsuarioParaNotificacion($email){
 
 		$sql = DB::conexion()->prepare("SELECT * FROM usuario WHERE correo = ?");
@@ -110,6 +109,25 @@ class usuario{
 
 		$resultado = $sql->get_result();
 		return $resultado->fetch_object();
+
+	public function SeguirElemento($correo,$id){
+		$sql=DB::conexion()->prepare("INSERT INTO usuario_contenido (Usuario_correo,sigue_id) VALUES (?,?)");
+		$sql->bind_param("si",$correo,$id);
+		if ($sql->execute()) {
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+
+	public function DejarSeguirElemento($correo,$id){
+		$sql=DB::conexion()->prepare("DELETE FROM usuario_contenido WHERE Usuario_correo = ? AND sigue_id = ?");
+		$sql->bind_param("si",$correo,$id);
+		if ($sql->execute()) {
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 
 } ?>

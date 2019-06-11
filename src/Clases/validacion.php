@@ -8,7 +8,7 @@ class validacion {
 	private $correo;
 	private $token;
 
-	public function generarToken($longitud) {
+	public static function generarToken($longitud) {
 		$caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$cadenaAleatoria = '';
 		for ($i = 0; $i < $longitud; $i++) {
@@ -18,7 +18,7 @@ class validacion {
 	} 
 
 
-	public function registrarValidacion($email,$token){
+	public static function registrarValidacion($email,$token){
 		$id=null;
 		$consulta=DB::conexion()->prepare("INSERT INTO `validacion` (`id`, `correo`, `token`) VALUES (?,?,?)");
 		if ($consulta === false) {
@@ -30,7 +30,7 @@ class validacion {
 		$consulta->execute();
 		*/
 		if ($consulta->execute()){
-			return [ 'ok' => 'false' ];
+			return [ 'ok' => 'true' ];
 		}else{
 			return [ 'ok' => 'false' ];
 		}
@@ -48,7 +48,7 @@ class validacion {
 	}
 
 
-	public function enviarMail($email,$token){
+	public static function enviarMail($email,$token){
 		$hash = "Codigo de validacion: ";
 		$hash .= $token;
 		
@@ -94,8 +94,9 @@ class validacion {
 		//$mail->addAttachment('images/phpmailer_mini.png');
 //send the message, check for errors
 		if ($mail->send()) {
-			$myObj->retorno = true;
-			return json_encode($myObj);
+			//$myObj->retorno = true;
+			//return json_encode($myObj);
+			return true;
 		}else{
 			$myObj->retorno = false;
 			return json_encode($myObj);
