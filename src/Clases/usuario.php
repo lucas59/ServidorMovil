@@ -101,24 +101,8 @@ class usuario{
 
 	}
 
-	public function SeguirElemento($correo,$id){
-		$sql=DB::conexion()->prepare("INSERT INTO usuario_contenido (Usuario_correo,sigue_id) VALUES (?,?)");
-		$sql->bind_param("si",$correo,$id);
-		if ($sql->execute()) {
-			return 1;
-		}else{
-			return 0;
-		}
-	}
+	
 
-	public function DejarSeguirElemento($correo,$id){
-		$sql=DB::conexion()->prepare("DELETE FROM usuario_contenido WHERE Usuario_correo = ? AND sigue_id = ?");
-		$sql->bind_param("si",$correo,$id);
-		if ($sql->execute()) {
-			return 1;
-		}else{
-			return 0;
-		}
-	}
+	
 
 } ?>
