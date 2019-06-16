@@ -15,7 +15,6 @@ return function (App $app){
 		//return $this->view->render($response,"altaUser.twig");
 	});
 
-
 	$app->get('/contenido/comentario',function($request,$response,$args) use ($container){
 		$texto=$request->getQueryParam("comentario");
 		$capitulo_id=$request->getQueryParam("capitulo_id");

@@ -1,20 +1,20 @@
 <?php /**
- * 
+ *
  */
 
 class usuario{
-	
+
 	private $correo;
 	private $nombre;
 	private $edad;
 	private $pass;
 	private $comentarios = array();
 	private $contenido = array();
-	
+
 	public static function verificarExistencia($email){
 		$retorno=null;
 		$consulta = DB::conexion()->prepare("SELECT * FROM usuario WHERE correo = ?");
-		$consulta->bind_param('s',$email);		
+		$consulta->bind_param('s',$email);
 		$consulta->execute();
 		$resultado = $consulta->get_result();
 		if (mysqli_num_rows($resultado) == 1) {
@@ -67,7 +67,7 @@ class usuario{
 			return true;
 		}else{
 			return false;
-		} 
+		}
 	}
 
 	public function obtenerUsuario($correo){
@@ -95,14 +95,16 @@ class usuario{
 		return $resultado->fetch_object();
 	}
 	public function nuevoUsuario2($nombre,$apellido,$edad,$correo,$foto){
-		$sql=DB::conexion()->prepare("UPDATE `usuario` SET `foto` = ?, `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ? ");
-		$sql->bind_param("ssiss",$foto,$apellido,$edad,$nombre,$correo);
+		$sql="";
+		if($foto==""){
+			$sql=DB::conexion()->prepare("UPDATE `usuario` SET `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ?");
+			$sql->bind_param("siss",$apellido,$edad,$nombre,$correo);
+		}else{
+			$sql=DB::conexion()->prepare("UPDATE `usuario` SET `foto` = ?, `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ? ");
+			$sql->bind_param("ssiss",$foto,$apellido,$edad,$nombre,$correo);
+		}
 		return $sql->execute();
 
 	}
-
-	
-
-	
 
 } ?>
