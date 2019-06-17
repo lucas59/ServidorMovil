@@ -57,8 +57,10 @@ return function (App $app){
 		$email=$request->getQueryParam("email");
 		$id=$request->getQueryParam("id");
 		$fecha=$request->getQueryParam("fecha");
-		$genero=$request->getQueryParam("genero");
+		$genero=null;
 		$titulo=$request->getQueryParam("titulo");
+		$tipo=$request->getQueryParam("tipo");
+
 
 		$myObj=new \stdClass();
 		$opcion=ctr_contenido::verificarFavorito($email,$id);
@@ -71,7 +73,7 @@ return function (App $app){
 			}
 			return json_encode($myObj);
 		}else{
-			$verificar2 = ctr_contenido::seguir($email,$id,$fecha,$genero,$titulo);
+			 $verificar2 = ctr_contenido::seguir($email,$id,$fecha,$genero,$titulo,$tipo);
 			if($verificar2 == "1"){
 				$myObj->retorno = true;
 			}else{

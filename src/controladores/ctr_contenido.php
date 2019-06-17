@@ -31,10 +31,10 @@ class ctr_contenido {
 	}
 
 
-	public function seguir($email,$id,$fecha,$genero,$titulo){//$email,$id,$fecha,$genero,$titulo
+	public function seguir($email,$id,$fecha,$genero,$titulo,$tipo){//$email,$id,$fecha,$genero,$titulo
 		$resultado = contenido::Buscar_contenido($id);
 		if(!$resultado){
-		 comentarios::IngresarContenido($id,$fecha,$genero,$titulo);
+		 comentarios::IngresarContenido($id,$fecha,$genero,$titulo,$tipo);
 		}
 		return contenido::SeguirElemento($email,$id);
 	}
