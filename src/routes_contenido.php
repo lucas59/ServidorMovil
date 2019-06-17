@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 use Slim\App;
@@ -9,12 +9,11 @@ require_once 'controladores/ctr_contenido.php';
 
 
 return function (App $app){
-	$container = $app->getContainer(); 
+	$container = $app->getContainer();
 
 	$app->get('/contenido/',function($request,$response,$args) use ($container){
 		//return $this->view->render($response,"altaUser.twig");
 	});
-
 
 	$app->get('/contenido/comentario',function($request,$response,$args) use ($container){
 		$texto=$request->getQueryParam("comentario");
@@ -27,15 +26,15 @@ return function (App $app){
 		$myObj = new \stdClass();
 		$validacion = ctr_contenido::Comentario($texto,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento);
 		if($validacion == "1"){
-			$myObj->retorno = true; 
+			$myObj->retorno = true;
 		}else{
-			$myObj->retorno = false; 
+			$myObj->retorno = false;
 		}
 		return json_encode($myObj);
 
 	})->setName("Comentario");
 
-	$app->get('/contenido/lista_comentario',function($request,$response,$args) use ($container){	
+	$app->get('/contenido/lista_comentario',function($request,$response,$args) use ($container){
 		$id=$request->getQueryParam("id");
 		$validacion = ctr_contenido::Lista_Comentario($id);
 		return $validacion;
@@ -66,5 +65,51 @@ return function (App $app){
 		}
 		return json_encode($myObj);
 	})->setName("PuntuarComentario");
+
+	
+	$app->get('/elemento/verificar',function($request,$response,$args) use ($container){
+		$email=$request->getQueryParam("email");
+		$id=$request->getQueryParam("id");
+		$myObj=new \stdClass();
+		$verificar = ctr_contenido::verificarFavorito($email,$id);
+		if($verificar == "1"){
+			$myObj->retorno = true;
+		}else{
+			$myObj->retorno = false;
+		}
+		return json_encode($myObj);
+	});
+
+	$app->get('/elemento/seguir',function($request,$response,$args) use ($container){
+		$email=$request->getQueryParam("email");
+		$id=$request->getQueryParam("id");
+		$fecha=$request->getQueryParam("fecha");
+		$genero=null;
+		$titulo=$request->getQueryParam("titulo");
+		$tipo=$request->getQueryParam("tipo");
+
+
+		$myObj=new \stdClass();
+		$opcion=ctr_contenido::verificarFavorito($email,$id);
+		if($opcion=="1"){
+			$verificar = ctr_contenido::dejarDeSeguir($email,$id);
+			if($verificar == "1"){
+				$myObj->retorno = true;
+			}else{
+				$myObj->retorno = false;
+			}
+			return json_encode($myObj);
+		}else{
+			 $verificar2 = ctr_contenido::seguir($email,$id,$fecha,$genero,$titulo,$tipo);
+			if($verificar2 == "1"){
+				$myObj->retorno = true;
+			}else{
+				$myObj->retorno = false;
+			}
+			return json_encode($myObj);
+		}
+	});
+
+
 }
 ?>

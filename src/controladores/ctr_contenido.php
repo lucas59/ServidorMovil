@@ -1,7 +1,7 @@
-<?php 
+<?php
 
 /**
-  * 
+  *
   */
 require_once '../src/Clases/comentarios.php';
 require_once '../src/Clases/contenido.php';
@@ -23,7 +23,24 @@ class ctr_contenido {
 
 	public function Lista_Comentario($id){
 		return $comentario = comentarios::Lista_Contenido($id);
-		
+
+	}
+
+	public function verificarFavorito($email,$id){
+		return contenido::verificarFavorito($email,$id);
+	}
+
+
+	public function seguir($email,$id,$fecha,$genero,$titulo,$tipo){//$email,$id,$fecha,$genero,$titulo
+		$resultado = contenido::Buscar_contenido($id);
+		if(!$resultado){
+		 comentarios::IngresarContenido($id,$fecha,$genero,$titulo,$tipo);
+		}
+		return contenido::SeguirElemento($email,$id);
+	}
+
+	public function dejarDeSeguir($email,$id){//$email,$id,$fecha,$genero,$titulo
+		return contenido::DejarSeguirElemento($email,$id);
 	}
 	public function ReportarComentario($comentario){
 		return $comentario = comentarios::Reportar($comentario);	
