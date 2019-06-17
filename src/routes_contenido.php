@@ -40,5 +40,31 @@ return function (App $app){
 		$validacion = ctr_contenido::Lista_Comentario($id);
 		return $validacion;
 	})->setName("Lista_comentario");
+
+	$app->get('/contenido/ReportarComentario',function($request,$response,$args) use ($container){	
+		$comentario=$request->getQueryParam("comentario");
+		$reportar = ctr_contenido::ReportarComentario($comentario);
+		$myObj = new \stdClass();
+		if($reportar == "1"){
+			$myObj->retorno = true; 
+		}else{
+			$myObj->retorno = false; 
+		}
+		return json_encode($myObj);
+	})->setName("ReportarComentario");
+
+	$app->get('/contenido/PuntuarComentario',function($request,$response,$args) use ($container){	
+		$comentario=$request->getQueryParam("comentario");
+		$usuario=$request->getQueryParam("usuario");
+		$puntuacion=$request->getQueryParam("puntuacion");
+		$puntuar = ctr_contenido::PuntuarComentario($comentario,$usuario,$puntuacion);
+		$myObj = new \stdClass();
+		if($puntuar == "1"){
+			$myObj->retorno = true; 
+		}else{
+			$myObj->retorno = false; 
+		}
+		return json_encode($myObj);
+	})->setName("PuntuarComentario");
 }
 ?>

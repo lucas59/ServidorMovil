@@ -25,6 +25,13 @@ class ctr_contenido {
 		return $comentario = comentarios::Lista_Contenido($id);
 		
 	}
+	public function ReportarComentario($comentario){
+		return $comentario = comentarios::Reportar($comentario);	
+	}
+
+	public function PuntuarComentario($comentario,$usuario,$puntuacion){
+		return $comentario = comentarios::puntuar($comentario,$usuario,$puntuacion);
+	}
 
 }
 
