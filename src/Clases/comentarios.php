@@ -2,6 +2,7 @@
 /**
   * 
   */
+
 class comentarios{
 	private $titulo;
 	private $texto;
@@ -21,7 +22,7 @@ class comentarios{
 		}
 	}
 
-	public function IngresarContenido($id,$fecha,$genero,$titulo,$tipo){
+	public function IngresarContenido($id,$fecha,$genero,$titulo){
 		$sql = DB::conexion()->prepare("INSERT INTO `contenido` (`id`,`fecha`, `genero`, `titulo`) VALUES (?,?,?,?)");
 		/*if ($sql === false) {
 			return [ 'ok' => 'false' ];

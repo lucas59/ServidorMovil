@@ -5,9 +5,10 @@
   */
 require_once '../src/Clases/comentarios.php';
 require_once '../src/Clases/contenido.php';
-
+require_once '../src/Clases/console.php';
 class ctr_contenido {
 	public function Comentario($texto,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento){
+
 		$resultado = contenido::Buscar_contenido($contenido_id);
 		$contenido = '1';
 		if(!$resultado){
@@ -48,6 +49,10 @@ class ctr_contenido {
 
 	public function PuntuarComentario($comentario,$usuario,$puntuacion){
 		return $comentario = comentarios::puntuar($comentario,$usuario,$puntuacion);
+	}
+
+	public function Lista_contenido_usuario($id){
+		return $contenido = contenido::Lista_contenido_usuario($id);
 	}
 
 }

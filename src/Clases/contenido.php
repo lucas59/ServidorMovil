@@ -92,6 +92,19 @@ public function SeguirElemento($correo,$id){
 		}
 	}
 
+	public function Lista_contenido_usuario($id){
+		$sql = DB::conexion()->prepare("SELECT sigue_id FROM usuario_contenido WHERE 
+Usuario_correo = ?");
+		$sql->bind_param('i',$id);
+		$sql->execute();
+		
+		$result = $sql->get_result();
+		$outp = $result->fetch_all(MYSQLI_ASSOC);
+
+		return json_encode(array('contenido' => $outp));
+	}
+	
+
 
 } 
 

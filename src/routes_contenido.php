@@ -40,6 +40,12 @@ return function (App $app){
 		return $validacion;
 	})->setName("Lista_comentario");
 
+	$app->get('/contenido/lista_contenido_usuario',function($request,$response,$args) use ($container){
+		$id=$request->getQueryParam("id");
+		$validacion = ctr_contenido::Lista_contenido_usuario($id);
+		return $validacion;
+	})->setName("Lista_contenido_usuario");
+
 	$app->get('/contenido/ReportarComentario',function($request,$response,$args) use ($container){	
 		$comentario=$request->getQueryParam("comentario");
 		$reportar = ctr_contenido::ReportarComentario($comentario);
