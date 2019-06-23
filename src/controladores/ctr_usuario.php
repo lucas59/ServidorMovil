@@ -1,10 +1,11 @@
-<?php 
+<?php
 /**
-  * 
+  *
   */
 
 require_once '../src/Clases/usuario.php';
 require_once '../src/Clases/validacion.php';
+require_once '../src/Clases/notificacion.php';
 require_once '../src/conexion/abrir_conexion.php';
 class ctr_usuario {
 
@@ -69,12 +70,19 @@ class ctr_usuario {
 
 	public function SeguirElemento($correo,$titulo){
 		return $resultado = Usuario::SeguirElemento($correo,$titulo);
-		
+
 	}
 	public function DejarSeguirElemento($correo,$titulo){
 		return $resultado = Usuario::DejarSeguirElemento($correo,$titulo);
-		
+
 	}
 
+	public function actualizarUsuario($email,$nombre,$apellido,$edad,$foto){
+		return usuario::nuevoUsuario2($nombre,$apellido,$edad,$email,$foto);
+	}
+
+	public function listarNotificaciones($correo){
+		return notificacion::listarNotificaciones($correo);
+	}
 
 } ?>

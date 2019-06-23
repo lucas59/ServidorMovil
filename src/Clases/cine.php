@@ -63,5 +63,10 @@ require_once 'contenido.php';
     public String getId() {
         return id;
     }
+
  	}
+
+
+
+
  } ?>

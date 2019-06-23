@@ -27,5 +27,34 @@ class notificacion {
 		$this->fecha = $fecha;
 	}
 
+	public function listarNotificaciones($correo){
+		$sql = DB::conexion()->prepare("SELECT * FROM notificacion WHERE correo = ? ");
+		$sql->bind_param('s',$correo);
+		$sql->execute();
+		
+		$result = $sql->get_result();
+		$retorno = $result->fetch_all(MYSQLI_ASSOC);
+
+		return json_encode(array('notificaciones' => $retorno));
+	}
+
+	public function realizarNotificacion($correo, $contenido, $tipo){
+
+		$accion = null;
+		if($tipo == "notificacion"){
+			$accion = "Alguien respondio su comentario";
+		}else if ($tipo == "reporte"){
+			$accion = "Su comentario fue reportado";
+		}
+
+		$sql = DB::conexion()->prepare("INSERT INTO notificacion () VALUES () ");
+		$sql->bind_param();
+
+		if($sql->execute()){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
 }
  ?>

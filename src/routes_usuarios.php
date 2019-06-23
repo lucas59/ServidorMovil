@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 use Slim\App;
@@ -8,7 +8,7 @@ use Slim\Http\Response;
 require_once 'controladores/ctr_usuario.php';
 
 return function (App $app){
-	$container = $app->getContainer(); 
+	$container = $app->getContainer();
 
 	$app->post('/usuario/nuevo',function($request,$response,$args) use ($container){
 		$data = $request->getParams();
@@ -16,9 +16,9 @@ return function (App $app){
 		$pass=$data['pass'];
 
 		$myObj = new \stdClass();
-		
+
 		if(ctr_usuario::altaUser($email,$pass)){
-			$myObj->retorno = true; 
+			$myObj->retorno = true;
 		}else{
 			$myObj->retorno = false;
 		}
@@ -38,9 +38,9 @@ return function (App $app){
 		$foto = $data['foto'];
 
 		$myObj = new \stdClass();
-	
+
 		if(ctr_usuario::altaUser2($nombre,$apellido,$edad,$token,$foto)){
-			$myObj->retorno = true; 
+			$myObj->retorno = true;
 		}else{
 			$myObj->retorno = false;
 		}
@@ -53,7 +53,7 @@ return function (App $app){
 		$token = $args['token'];
 		$myObj = new \stdClass();
 		if (ctr_usuario::activarUsuario($token)) {
-			$myObj->retorno = true; 
+			$myObj->retorno = true;
 		}else{
 			$myObj->retorno = false;
 		}
@@ -65,7 +65,7 @@ return function (App $app){
 		$email=$data['correo'];
 		$pass=$data['pass'];
 		$myObj = new \stdClass();
-		
+
 		if(ctr_usuario::login($email,$pass)){
 			$myObj->retorno = true; //o false
 		}else{
@@ -74,29 +74,29 @@ return function (App $app){
 		return json_encode($myObj);
 
 	})->setName("NuevoUsuario");
-	
-	$app->get('/usuario/SeguirElemento',function($request,$response,$args) use ($container){	
+
+	$app->get('/usuario/SeguirElemento',function($request,$response,$args) use ($container){
 		$correo=$request->getQueryParam("correo");
 		$id=$request->getQueryParam("id");
 		$insertar = ctr_usuario::SeguirElemento($correo,$id);
 		$myObj = new \stdClass();
 		if($insertar == "1"){
-			$myObj->retorno = true; 
+			$myObj->retorno = true;
 		}else{
-			$myObj->retorno = false; 
+			$myObj->retorno = false;
 		}
 		return json_encode($myObj);
 	})->setName("SeguirElemento");
-	
-	$app->get('/usuario/DejarSeguirElemento',function($request,$response,$args) use ($container){	
+
+	$app->get('/usuario/DejarSeguirElemento',function($request,$response,$args) use ($container){
 		$correo=$request->getQueryParam("correo");
 		$id=$request->getQueryParam("id");
 		$insertar = ctr_usuario::DejarSeguirElemento($correo,$id);
 		$myObj = new \stdClass();
 		if($insertar == "1"){
-			$myObj->retorno = true; 
+			$myObj->retorno = true;
 		}else{
-			$myObj->retorno = false; 
+			$myObj->retorno = false;
 		}
 		return json_encode($myObj);
 	})->setName("DejarSeguirElemento");
@@ -118,8 +118,30 @@ return function (App $app){
 		}
 		return json_encode($myObj);
 	});
-	
-	
-	
+
+	$app->post('/usuario/editar',function($request,$response,$args) use ($container){
+		$data = $request->getParams();
+		$nombre=$data['nombre'];
+		$apellido=$data['apellido'];
+		$edad=$data['edad'];
+		$email=$data['correo'];
+		$foto = $data['foto'];
+
+		$myObj = new \stdClass();
+
+		if(ctr_usuario::actualizarUsuario($email,$nombre,$apellido,$edad,$foto)){
+			$myObj->retorno = true;
+		}else{
+			$myObj->retorno = false;
+		}
+		return json_encode($myObj);
+	});
+
+	$app->get('/usuario/notificaciones/{correo}', function($request,$response,$args){
+		$correo = $args['correo'];
+		$notificaciones = ctr_usuario::listarNotificaciones($correo);
+		return $notificaciones;
+	})->setName("Listar_Notificaciones");
+
 
 }?>
