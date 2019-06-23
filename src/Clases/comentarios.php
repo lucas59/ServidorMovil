@@ -2,6 +2,7 @@
 /**
   * 
   */
+
 class comentarios{
 	private $titulo;
 	private $texto;
@@ -21,7 +22,7 @@ class comentarios{
 		}
 	}
 
-	public function IngresarContenido($id,$fecha,$genero,$titulo,$tipo){
+	public function IngresarContenido($id,$fecha,$genero,$titulo){
 		$sql = DB::conexion()->prepare("INSERT INTO `contenido` (`id`,`fecha`, `genero`, `titulo`) VALUES (?,?,?,?)");
 		/*if ($sql === false) {
 			return [ 'ok' => 'false' ];
@@ -85,6 +86,26 @@ class comentarios{
 		$outp = $result->fetch_all(MYSQLI_ASSOC);
 
 		return json_encode(array('Comentarios' => $outp));
-	} 	
+	}
+	
+	public static function Reportar($comentario){
+		$sql = DB::conexion()->prepare("UPDATE comentario SET estado = 1 WHERE comentario.id = ?");
+		$sql->bind_param('i',$comentario);
+		if($sql->execute()){
+			return "1";
+		}else{
+			return "0";
+		}
+	}
+
+	public static function puntuar($comentario,$usuario,$puntuacion){
+		$sql = DB::conexion()->prepare("INSERT INTO usuario_puntuaciones (usuario_correo, comentario_id, puntuacion) VALUES (?,?,?)");
+		$sql->bind_param('sii',$usuario,$comentario,$puntuacion);
+		if($sql->execute()){
+			return "1";
+		}else{
+			return "0";
+		}
+	}
 }
 ?>

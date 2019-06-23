@@ -40,6 +40,39 @@ return function (App $app){
 		return $validacion;
 	})->setName("Lista_comentario");
 
+	$app->get('/contenido/lista_contenido_usuario',function($request,$response,$args) use ($container){
+		$id=$request->getQueryParam("id");
+		$validacion = ctr_contenido::Lista_contenido_usuario($id);
+		return $validacion;
+	})->setName("Lista_contenido_usuario");
+
+	$app->get('/contenido/ReportarComentario',function($request,$response,$args) use ($container){	
+		$comentario=$request->getQueryParam("comentario");
+		$reportar = ctr_contenido::ReportarComentario($comentario);
+		$myObj = new \stdClass();
+		if($reportar == "1"){
+			$myObj->retorno = true; 
+		}else{
+			$myObj->retorno = false; 
+		}
+		return json_encode($myObj);
+	})->setName("ReportarComentario");
+
+	$app->get('/contenido/PuntuarComentario',function($request,$response,$args) use ($container){	
+		$comentario=$request->getQueryParam("comentario");
+		$usuario=$request->getQueryParam("usuario");
+		$puntuacion=$request->getQueryParam("puntuacion");
+		$puntuar = ctr_contenido::PuntuarComentario($comentario,$usuario,$puntuacion);
+		$myObj = new \stdClass();
+		if($puntuar == "1"){
+			$myObj->retorno = true; 
+		}else{
+			$myObj->retorno = false; 
+		}
+		return json_encode($myObj);
+	})->setName("PuntuarComentario");
+
+	
 	$app->get('/elemento/verificar',function($request,$response,$args) use ($container){
 		$email=$request->getQueryParam("email");
 		$id=$request->getQueryParam("id");
