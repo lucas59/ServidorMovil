@@ -10,7 +10,7 @@ class ctr_contenido {
 	public function Comentario($texto,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento){
 
 		$resultado = contenido::Buscar_contenido($contenido_id);
-		$contenido = '1';
+		//$contenido = '1';
 		if(!$resultado){
 			if($contenido_id){
 			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento,1);
