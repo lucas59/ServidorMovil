@@ -22,7 +22,7 @@ class comentarios{
 		}
 	}
 
-	public function IngresarContenido($id,$fecha,$genero,$titulo){
+	public function IngresarContenido($id,$fecha,$genero,$titulo,$tipo){
 		$sql = DB::conexion()->prepare("INSERT INTO `contenido` (`id`,`fecha`, `genero`, `titulo`) VALUES (?,?,?,?)");
 		/*if ($sql === false) {
 			return [ 'ok' => 'false' ];
@@ -78,8 +78,9 @@ class comentarios{
 
 
 	public function Lista_Contenido($id){
-		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE contenido_id = ?");
-		$sql->bind_param('i',$id);
+		$estado = 0;
+		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE contenido_id = ? AND estado = ?");
+		$sql->bind_param('ii',$id,$estado);
 		$sql->execute();
 		
 		$result = $sql->get_result();

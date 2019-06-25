@@ -12,7 +12,12 @@ class ctr_contenido {
 		$resultado = contenido::Buscar_contenido($contenido_id);
 		$contenido = '1';
 		if(!$resultado){
-			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento);
+			if($contenido_id){
+			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento,1);
+		}
+		else if($capitulo_id){
+			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento,0);
+		}
 		}
 		$comentario = comentarios::IngresarComentario($texto,$capitulo_id,$contenido_id,$usuario);
 		if($comentario == "1" && $contenido == "1"){
