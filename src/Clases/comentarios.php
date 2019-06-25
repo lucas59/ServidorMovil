@@ -2,6 +2,7 @@
 /**
   * 
   */
+
 class comentarios{
 	private $titulo;
 	private $texto;
@@ -77,8 +78,9 @@ class comentarios{
 
 
 	public function Lista_Contenido($id){
-		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE contenido_id = ?");
-		$sql->bind_param('i',$id);
+		$estado = 0;
+		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE contenido_id = ? AND estado = ?");
+		$sql->bind_param('ii',$id,$estado);
 		$sql->execute();
 		
 		$result = $sql->get_result();

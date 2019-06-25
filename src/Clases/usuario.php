@@ -17,9 +17,9 @@ class usuario{
 		$consulta->bind_param('s',$email);
 		$consulta->execute();
 		$resultado = $consulta->get_result();
-		if (mysqli_num_rows($resultado) == 1) {
+		if (mysqli_num_rows($resultado) >= 1) {
 			$retorno = "1";
-		} else if($resultado->num_rows == 0) {
+		} else if($resultado->num_rows < 1) {
 			$retorno = "0";
 		}
 		return $retorno;

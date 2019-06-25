@@ -5,13 +5,19 @@
   */
 require_once '../src/Clases/comentarios.php';
 require_once '../src/Clases/contenido.php';
-
+require_once '../src/Clases/console.php';
 class ctr_contenido {
 	public function Comentario($texto,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento){
+
 		$resultado = contenido::Buscar_contenido($contenido_id);
 		$contenido = '1';
 		if(!$resultado){
-			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento);
+			if($contenido_id){
+			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento,1);
+		}
+		else if($capitulo_id){
+			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento,0);
+		}
 		}
 		$comentario = comentarios::IngresarComentario($texto,$capitulo_id,$contenido_id,$usuario);
 		if($comentario == "1" && $contenido == "1"){
@@ -48,6 +54,10 @@ class ctr_contenido {
 
 	public function PuntuarComentario($comentario,$usuario,$puntuacion){
 		return $comentario = comentarios::puntuar($comentario,$usuario,$puntuacion);
+	}
+
+	public function Lista_contenido_usuario($id){
+		return $contenido = contenido::Lista_contenido_usuario($id);
 	}
 
 }
