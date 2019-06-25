@@ -17,9 +17,9 @@ class usuario{
 		$consulta->bind_param('s',$email);
 		$consulta->execute();
 		$resultado = $consulta->get_result();
-		if (mysqli_num_rows($resultado) == 1) {
+		if (mysqli_num_rows($resultado) >= 1) {
 			$retorno = "1";
-		} else if($resultado->num_rows == 0) {
+		} else if($resultado->num_rows < 1) {
 			$retorno = "0";
 		}
 		return $retorno;
@@ -71,7 +71,7 @@ class usuario{
 	}
 
 	public function obtenerUsuario($correo){
-		$sql=DB::conexion()->prepare("SELECT COUNT(*) AS Numero_comentario,correo,nombre,apellido,estado,edad,foto FROM usuario,comentario WHERE correo = ?  AND comentario.usuario_correo = ?");
+		$sql=DB::conexion()->prepare("SELECT COUNT(*) AS Numero_comentario,correo,nombre,apellido,usuario.estado,edad,foto FROM usuario,comentario WHERE correo = ?  AND comentario.usuario_correo = ?");
 		$sql->bind_param('ss',$correo,$correo);
 		$sql->execute();
 		$resultado = $sql->get_result();
