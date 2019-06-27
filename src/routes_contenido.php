@@ -6,7 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 require_once 'controladores/ctr_contenido.php';
-
+require_once '../src/Clases/console.php';
 
 return function (App $app){
 	$container = $app->getContainer();

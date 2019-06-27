@@ -58,7 +58,8 @@ class ctr_contenido {
 		return contenido::DejarSeguirElemento($email,$id);
 	}
 	public function ReportarComentario($comentario){
-		return $comentario = comentarios::Reportar($comentario);	
+		$reportes = comentarios::numero_reportes($comentario);
+		return $comentario = comentarios::Reportar($comentario,$reportes);	
 	}
 
 	public function PuntuarComentario($comentario,$usuario,$puntuacion){

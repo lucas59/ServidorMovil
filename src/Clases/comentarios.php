@@ -106,8 +106,8 @@ class comentarios{
 
 
 	public function Lista_Contenido($id){
-		$estado = 0;
-		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE contenido_id = ? AND estado = ?");
+		$estado = 2;
+		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE contenido_id = ? AND estado < ?");
 		$sql->bind_param('ii',$id,$estado);
 		$sql->execute();
 		
@@ -129,14 +129,25 @@ class comentarios{
 		return json_encode(array('Comentarios' => $outp));
 	}
 	
-	public static function Reportar($comentario){
-		$sql = DB::conexion()->prepare("UPDATE comentario SET estado = 1 WHERE comentario.id = ?");
-		$sql->bind_param('i',$comentario);
+	public static function Reportar($comentario,$reportes){
+		$sql = DB::conexion()->prepare("UPDATE comentario SET estado = ? + 1 WHERE comentario.id = ?");
+		$sql->bind_param('ii',$reportes,$comentario);
 		if($sql->execute()){
 			return "1";
 		}else{
 			return "0";
 		}
+	}
+
+		public function numero_reportes($id_comentario){
+		$estado = 0;
+		$sql = DB::conexion()->prepare("SELECT estado FROM comentario WHERE id = ?");
+		$sql->bind_param('i',$id_comentario);
+		$sql->execute();
+		
+		$result = $sql->get_result();
+		$estado_numero = $result->fetch_assoc();
+		return $estado_numero['estado'];
 	}
 
 	public static function puntuar($comentario,$usuario,$puntuacion){
