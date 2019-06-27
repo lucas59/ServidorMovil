@@ -7,16 +7,19 @@ require_once '../src/Clases/comentarios.php';
 require_once '../src/Clases/contenido.php';
 require_once '../src/Clases/console.php';
 class ctr_contenido {
-	public function Comentario($texto,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento){
+	public function Comentario($texto,$serie_id,$temporada,$capitulo,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento){
 
-		$resultado = contenido::Buscar_contenido($contenido_id);
+		$resultado_serie = contenido::Buscar_contenido($serie_id);
+		$resultado_pelicula = contenido::Buscar_contenido($contenido_id);
 		$contenido = '1';
-		if(!$resultado){
+		if(!$resultado_pelicula){
 			if($contenido_id){
-			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento,1);
+			$contenido = comentarios::IngresarContenido($contenido_id,$temporada,$capitulo,$capitulo_id,$fecha,$genero,$titulo_elemento,1);
 		}
-		else if($capitulo_id){
-			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento,0);
+	}
+	if(!$resultado_serie){
+		if($serie_id){
+			$contenido = comentarios::IngresarContenido($serie_id,$temporada,$capitulo,$capitulo_id,$fecha,$genero,$titulo_elemento,0);
 		}
 		}
 		$comentario = comentarios::IngresarComentario($texto,$capitulo_id,$contenido_id,$usuario);
@@ -32,6 +35,12 @@ class ctr_contenido {
 
 	}
 
+
+	public function Lista_ComentarioSerie($id){
+		return $comentario = comentarios::Lista_ContenidoSerie($id);
+
+	}
+
 	public function verificarFavorito($email,$id){
 		return contenido::verificarFavorito($email,$id);
 	}
@@ -40,7 +49,7 @@ class ctr_contenido {
 	public function seguir($email,$id,$fecha,$genero,$titulo,$tipo){//$email,$id,$fecha,$genero,$titulo
 		$resultado = contenido::Buscar_contenido($id);
 		if(!$resultado){
-		 comentarios::IngresarContenido($id,$fecha,$genero,$titulo,$tipo);
+		 comentarios::IngresarContenido($id,null,null,$fecha,$genero,$titulo,$tipo);
 		}
 		return contenido::SeguirElemento($email,$id);
 	}

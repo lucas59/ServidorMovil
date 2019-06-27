@@ -17,6 +17,9 @@ return function (App $app){
 
 	$app->get('/contenido/comentario',function($request,$response,$args) use ($container){
 		$texto=$request->getQueryParam("comentario");
+		$serie=$request->getQueryParam("serie");
+		$temporada=$request->getQueryParam("temporada");
+		$capitulo=$request->getQueryParam("capitulo");
 		$capitulo_id=$request->getQueryParam("capitulo_id");
 		$contenido_id=$request->getQueryParam("contenido_id");
 		$usuario=$request->getQueryParam("usuario");
@@ -24,7 +27,8 @@ return function (App $app){
 		$genero=$request->getQueryParam("genero");
 		$titulo_elemento=$request->getQueryParam("titulo_elemento");
 		$myObj = new \stdClass();
-		$validacion = ctr_contenido::Comentario($texto,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento);
+		$validacion = ctr_contenido::Comentario($texto,$serie,$temporada,$capitulo,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento);
+		
 		if($validacion == "1"){
 			$myObj->retorno = true;
 		}else{
@@ -37,6 +41,12 @@ return function (App $app){
 	$app->get('/contenido/lista_comentario',function($request,$response,$args) use ($container){
 		$id=$request->getQueryParam("id");
 		$validacion = ctr_contenido::Lista_Comentario($id);
+		return $validacion;
+	})->setName("Lista_comentario");
+
+	$app->get('/contenido/lista_comentarioSerie',function($request,$response,$args) use ($container){
+		$id=$request->getQueryParam("id");
+		$validacion = ctr_contenido::Lista_ComentarioSerie($id);
 		return $validacion;
 	})->setName("Lista_comentario");
 
@@ -106,7 +116,7 @@ return function (App $app){
 			}
 			return json_encode($myObj);
 		}else{
-			 $verificar2 = ctr_contenido::seguir($email,$id,$fecha,$genero,$titulo,$tipo);
+			$verificar2 = ctr_contenido::seguir($email,$id,$fecha,$genero,$titulo,$tipo);
 			if($verificar2 == "1"){
 				$myObj->retorno = true;
 			}else{
