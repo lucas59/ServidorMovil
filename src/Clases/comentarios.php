@@ -22,7 +22,7 @@ class comentarios{
 		}
 	}
 
-	public function IngresarContenido($id,$fecha,$genero,$titulo){
+	public function IngresarContenido($id,$temporada,$capitulo,$capitulo_id,$fecha,$genero,$titulo,$tipo){
 		$sql = DB::conexion()->prepare("INSERT INTO `contenido` (`id`,`fecha`, `genero`, `titulo`) VALUES (?,?,?,?)");
 		/*if ($sql === false) {
 			return [ 'ok' => 'false' ];
@@ -30,10 +30,18 @@ class comentarios{
 		$sql->bind_param('isss',$id,$fecha,$genero,$titulo);
 		if($sql->execute()){
 			if(comentarios::insertarIdEnCine($id)){
-			if ($tipo) {
+			if ($tipo == 1) {
 				return comentarios::insertarPelicula($id);
 			}else{
-				return comentarios::insertarSerie($id);
+				$serie = comentarios::insertarSerie($id);
+				$temp = comentarios::insertarTemporada($id,$temporada,$capitulo);
+				$cap = comentarios::insertarCapitulo($temporada,$capitulo_id);
+				if($serie == 1 && $cap == 1 && $temp == 1){
+					return "1";
+				}
+				else{
+					return "0";
+				}
 			}
 			 }
 		}else{
@@ -75,11 +83,44 @@ class comentarios{
 		}
 	}
 
+		public static  function insertarCapitulo($temporada,$id_capitulo){
+		$sql = DB::conexion()->prepare("INSERT INTO `capitulo` (`id`,`temporada_id`) VALUES (?,?)");
+		$sql->bind_param("ii",$id_capitulo,$temporada);
+		if($sql->execute()){
+			return "1";
+		}else{
+			return "0";
+		}
+	}
+
+	public static  function insertarTemporada($id,$temporada,$capitulo){
+		$sql = DB::conexion()->prepare("INSERT INTO `temporada` (`id`,`capitulo`,`serie_id`) VALUES (?,?,?)");
+		$sql->bind_param("iii",$temporada,$capitulo,$id);
+		if($sql->execute()){
+			return "1";
+		}else{
+			return "0";
+		}
+	}
+
 
 
 	public function Lista_Contenido($id){
-		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE contenido_id = ?");
-		$sql->bind_param('i',$id);
+		$estado = 2;
+		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE contenido_id = ? AND estado < ?");
+		$sql->bind_param('ii',$id,$estado);
+		$sql->execute();
+		
+		$result = $sql->get_result();
+		$outp = $result->fetch_all(MYSQLI_ASSOC);
+
+		return json_encode(array('Comentarios' => $outp));
+	}
+
+		public function Lista_ContenidoSerie($id){
+		$estado = 0;
+		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE capitulo_id = ? AND estado = ?");
+		$sql->bind_param('ii',$id,$estado);
 		$sql->execute();
 		
 		$result = $sql->get_result();
@@ -88,14 +129,25 @@ class comentarios{
 		return json_encode(array('Comentarios' => $outp));
 	}
 	
-	public static function Reportar($comentario){
-		$sql = DB::conexion()->prepare("UPDATE comentario SET estado = 1 WHERE comentario.id = ?");
-		$sql->bind_param('i',$comentario);
+	public static function Reportar($comentario,$reportes){
+		$sql = DB::conexion()->prepare("UPDATE comentario SET estado = ? + 1 WHERE comentario.id = ?");
+		$sql->bind_param('ii',$reportes,$comentario);
 		if($sql->execute()){
 			return "1";
 		}else{
 			return "0";
 		}
+	}
+
+		public function numero_reportes($id_comentario){
+		$estado = 0;
+		$sql = DB::conexion()->prepare("SELECT estado FROM comentario WHERE id = ?");
+		$sql->bind_param('i',$id_comentario);
+		$sql->execute();
+		
+		$result = $sql->get_result();
+		$estado_numero = $result->fetch_assoc();
+		return $estado_numero['estado'];
 	}
 
 	public static function puntuar($comentario,$usuario,$puntuacion){

@@ -99,7 +99,7 @@ class validacion {
 			return true;
 		}else{
 			$myObj->retorno = false;
-			return json_encode($myObj);
+			return false;
 		}
 
 	}

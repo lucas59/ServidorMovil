@@ -6,6 +6,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 require_once 'controladores/ctr_usuario.php';
+require_once '../src/Clases/console.php';
 
 return function (App $app){
 	$container = $app->getContainer();
@@ -14,10 +15,10 @@ return function (App $app){
 		$data = $request->getParams();
 		$email=$data['correo'];
 		$pass=$data['pass'];
-
 		$myObj = new \stdClass();
-
-		if(ctr_usuario::altaUser($email,$pass)){
+		$alta = ctr_usuario::altaUser($email,$pass);
+		echo Console::log("ads",$alta);
+		if($alta==true){
 			$myObj->retorno = true;
 		}else{
 			$myObj->retorno = false;

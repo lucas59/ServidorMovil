@@ -9,14 +9,11 @@ require_once '../src/Clases/notificacion.php';
 require_once '../src/conexion/abrir_conexion.php';
 class ctr_usuario {
 
-
-
 	public static function altaUser($email,$pass){
 		$existe = usuario::verificarExistencia($email);
 		if($existe == "0"){
 			$inserUsu = usuario::nuevoUsuario($email,sha1($pass));
 			if($inserUsu){
-
 				$token = validacion::generarToken(10);
 				if(validacion::registrarValidacion($email,$token)){
 					return validacion::enviarMail($email,$token);

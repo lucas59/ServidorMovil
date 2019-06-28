@@ -9,13 +9,20 @@ require_once '../src/Clases/notificacion.php';
 require_once '../src/Clases/console.php';
 
 class ctr_contenido {
-	
-	public function Comentario($texto,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento){
+	public function Comentario($texto,$serie_id,$temporada,$capitulo,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento){
 
-		$resultado = contenido::Buscar_contenido($contenido_id);
+		$resultado_serie = contenido::Buscar_contenido($serie_id);
+		$resultado_pelicula = contenido::Buscar_contenido($contenido_id);
 		$contenido = '1';
-		if(!$resultado){
-			$contenido = comentarios::IngresarContenido($contenido_id,$fecha,$genero,$titulo_elemento);
+		if(!$resultado_pelicula){
+			if($contenido_id){
+			$contenido = comentarios::IngresarContenido($contenido_id,$temporada,$capitulo,$capitulo_id,$fecha,$genero,$titulo_elemento,1);
+		}
+	}
+	if(!$resultado_serie){
+		if($serie_id){
+			$contenido = comentarios::IngresarContenido($serie_id,$temporada,$capitulo,$capitulo_id,$fecha,$genero,$titulo_elemento,0);
+		}
 		}
 		$comentario = comentarios::IngresarComentario($texto,$capitulo_id,$contenido_id,$usuario);
 		if($comentario == "1" && $contenido == "1"){
@@ -31,6 +38,12 @@ class ctr_contenido {
 
 	}
 
+
+	public function Lista_ComentarioSerie($id){
+		return $comentario = comentarios::Lista_ContenidoSerie($id);
+
+	}
+
 	public function verificarFavorito($email,$id){
 		return contenido::verificarFavorito($email,$id);
 	}
@@ -39,7 +52,7 @@ class ctr_contenido {
 	public function seguir($email,$id,$fecha,$genero,$titulo,$tipo){//$email,$id,$fecha,$genero,$titulo
 		$resultado = contenido::Buscar_contenido($id);
 		if(!$resultado){
-		 comentarios::IngresarContenido($id,$fecha,$genero,$titulo,$tipo);
+		 comentarios::IngresarContenido($id,null,null,$fecha,$genero,$titulo,$tipo);
 		}
 		return contenido::SeguirElemento($email,$id);
 	}
@@ -48,7 +61,8 @@ class ctr_contenido {
 		return contenido::DejarSeguirElemento($email,$id);
 	}
 	public function ReportarComentario($comentario){
-		return $comentario = comentarios::Reportar($comentario);	
+		$reportes = comentarios::numero_reportes($comentario);
+		return $comentario = comentarios::Reportar($comentario,$reportes);	
 	}
 
 	public function PuntuarComentario($comentario,$usuario,$puntuacion){
@@ -71,8 +85,6 @@ class ctr_contenido {
 	public function listarNotificaciones($correo){
 		return notificacion::listarnotificaciones($correo);
 	}
-
-
 }
 
 ?>
