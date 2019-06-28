@@ -81,8 +81,5 @@ class ctr_usuario {
 		return usuario::nuevoUsuario2($nombre,$apellido,$edad,$email,$foto);
 	}
 
-	public function listarNotificaciones($correo){
-		return notificacion::listarNotificaciones($correo);
-	}
 
 } ?>

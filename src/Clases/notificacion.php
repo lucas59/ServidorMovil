@@ -5,9 +5,9 @@
 */
 class notificacion {
 	private $contenido_id;
-	private $nickUsuario;
-	private $fecha;	
-
+	private $usuario_correo;
+	private $visto;	
+	private $accion;
 	
 	function __construct($contenido, $usuario, $fecha){
 		$this->contenido_id = $contenido;
@@ -27,8 +27,8 @@ class notificacion {
 		$this->fecha = $fecha;
 	}
 
-	public function listarNotificaciones($correo){
-		$sql = DB::conexion()->prepare("SELECT * FROM notificacion WHERE correo = ? ");
+	public function listarnotificaciones($correo){
+		$sql = DB::conexion()->prepare("SELECT * FROM notificacion WHERE usuario_correo = ? ");
 		$sql->bind_param('s',$correo);
 		$sql->execute();
 		
@@ -38,23 +38,19 @@ class notificacion {
 		return json_encode(array('notificaciones' => $retorno));
 	}
 
-	public function realizarNotificacion($correo, $contenido, $tipo){
-
+	public function realizarNotificacion($usuario_id ,$contenido_id, $tipo){
 		$accion = null;
-		if($tipo == "notificacion"){
-			$accion = "Alguien respondio su comentario";
+		$visto = 0;
+		if($tipo == "comentario"){
+			$accion = "respondio su comentario";
 		}else if ($tipo == "reporte"){
-			$accion = "Su comentario fue reportado";
+			$accion = "Su comentario fue reportado por";
 		}
 
-		$sql = DB::conexion()->prepare("INSERT INTO notificacion () VALUES () ");
-		$sql->bind_param();
+		$sql = DB::conexion()->prepare("INSERT INTO notificacion(accion,contenido_id, usuario_correo, visto) VALUES (?,?,?,?)");
+		$sql->bind_param('sisi',$accion,$contenido,$correo,$visto);
 
-		if($sql->execute()){
-			return 1;
-		}else{
-			return 0;
-		}
+		$sql->execute();
 	}
 }
  ?>

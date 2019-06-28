@@ -10,7 +10,6 @@ class usuario{
 	private $pass;
 	private $comentarios = array();
 	private $contenido = array();
-	private $notificaciones = array();
 
 	public static function verificarExistencia($email){
 		$retorno=null;
@@ -102,14 +101,15 @@ class usuario{
 
 	}
 
-	public function obtenerUsuarioParaNotificacion($email){
+	public function obtenerUsuariosParaNotificacion($contenido_id){
 
-		$sql = DB::conexion()->prepare("SELECT * FROM usuario WHERE correo = ?");
-		$sql->bind_param('s', $email);
+		$sql = DB::conexion()->prepare("SELECT `Usuario_correo`FROM `usuario_contenido` WHERE  `sigue_id` = ?");
+		$sql->bind_param('i', $contenido_id);
 		$sql->execute();
 
 		$resultado = $sql->get_result();
-		return $resultado->fetch_object();
+
+		return $resultado; 
 	}
 
 	
