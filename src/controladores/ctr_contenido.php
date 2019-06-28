@@ -59,11 +59,11 @@ class ctr_contenido {
 		return $contenido = contenido::Lista_contenido_usuario($id);
 	}
 
-	public function generarNotificacion($usuario_id, $contenido_id, $tipo){
+	public function generarNotificacion($notificador, $contenido_id, $tipo){
 		$usuarios = usuario::obtenerUsuariosParaNotificacion($contenido_id);
 
-		while ($usu = $usuario->fetch_array(MYSQLI_ASSOC)) {
-			notificacion::realizarNotificacion($usu, $contenido_id, $tipo);
+		while ($notificado = $usuario->fetch_array(MYSQLI_ASSOC)) {
+			notificacion::realizarNotificacion($notificado, $contenido_id, $tipo,$notificador);
 		}
 		
 	}

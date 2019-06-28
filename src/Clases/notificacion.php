@@ -38,7 +38,7 @@ class notificacion {
 		return json_encode(array('notificaciones' => $retorno));
 	}
 
-	public function realizarNotificacion($usuario_id ,$contenido_id, $tipo){
+	public function realizarNotificacion($notificado ,$contenido_id, $tipo, $notificador){
 		$accion = null;
 		$visto = 0;
 		if($tipo == "comentario"){
@@ -47,8 +47,8 @@ class notificacion {
 			$accion = "Su comentario fue reportado por";
 		}
 
-		$sql = DB::conexion()->prepare("INSERT INTO notificacion(accion,contenido_id, usuario_correo, visto) VALUES (?,?,?,?)");
-		$sql->bind_param('sisi',$accion,$contenido,$correo,$visto);
+		$sql = DB::conexion()->prepare("INSERT INTO `notificacion`(accion, visto, contenido_id, notificado_correo, notificador_correo) VALUES(?,?,?,?,?)");
+		$sql->bind_param('sisi',$accion,$visto,$contenido_id,$notificado,$notificador);
 
 		$sql->execute();
 	}
