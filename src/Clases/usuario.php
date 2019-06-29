@@ -71,7 +71,7 @@ class usuario{
 	}
 
 	public function obtenerUsuario($correo){
-		$sql=DB::conexion()->prepare("SELECT COUNT(*) AS Numero_comentario,correo,nombre,apellido,usuario.estado,edad,foto FROM usuario,comentario WHERE correo = ?  AND comentario.usuario_correo = ?");
+		$sql=DB::conexion()->prepare("SELECT COUNT(*) AS Numero_comentario,correo,nombre,apellido,usuario.estado,edad,foto, (SELECT COUNT(*) FROM usuario_contenido WHERE Usuario_correo = ?) AS Numero_contenido FROM usuario,comentario WHERE correo = ?");
 		$sql->bind_param('ss',$correo,$correo);
 		$sql->execute();
 		$resultado = $sql->get_result();

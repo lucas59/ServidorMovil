@@ -50,6 +50,12 @@ return function (App $app){
 		return $validacion;
 	})->setName("Lista_comentario");
 
+	$app->get('/contenido/contenido_num',function($request,$response,$args) use ($container){
+		$id=$request->getQueryParam("id");
+		$validacion = ctr_contenido::contenido_num($id);
+		return $validacion;
+	})->setName("contenido_num");
+
 	$app->get('/contenido/lista_contenido_usuario',function($request,$response,$args) use ($container){
 		$id=$request->getQueryParam("id");
 		$validacion = ctr_contenido::Lista_contenido_usuario($id);

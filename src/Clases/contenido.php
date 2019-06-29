@@ -103,7 +103,15 @@ Usuario_correo = ?");
 
 		return json_encode(array('contenido' => $outp));
 	}
-	
+
+	public function numero_contenido($id_usuario){
+		$sql = DB::conexion()->prepare("SELECT COUNT(*) AS numero FROM usuario_contenido WHERE Usuario_correo = ?");
+		$sql->bind_param('s',$id_usuario);
+		$sql->execute();
+		$result = $sql->get_result();
+		$estado_numero = $result->fetch_assoc();
+		return json_encode($estado_numero['numero']);
+	}
 
 
 } 

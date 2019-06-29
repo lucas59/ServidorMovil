@@ -49,9 +49,13 @@ class ctr_contenido {
 	public function seguir($email,$id,$fecha,$genero,$titulo,$tipo){//$email,$id,$fecha,$genero,$titulo
 		$resultado = contenido::Buscar_contenido($id);
 		if(!$resultado){
-		 comentarios::IngresarContenido($id,null,null,$fecha,$genero,$titulo,$tipo);
+		 comentarios::IngresarContenido($id,null,null,null,$fecha,$genero,$titulo,$tipo);
 		}
 		return contenido::SeguirElemento($email,$id);
+	}
+
+	public function contenido_num($id){
+		return contenido::numero_contenido($id);
 	}
 
 	public function dejarDeSeguir($email,$id){//$email,$id,$fecha,$genero,$titulo
