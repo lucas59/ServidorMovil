@@ -27,7 +27,7 @@ class ctr_contenido {
 		$comentario = comentarios::IngresarComentario($texto,$capitulo_id,$contenido_id,$usuario);
 		if($comentario == "1" && $contenido == "1"){
 			return "1";
-			generarNotificacion($usuario, $contenido_id,"comentario");
+			generarNotificacion($usuario, $contenido_id, $capitulo_id,"comentario");
 		}else{
 			return "0";
 		}
@@ -73,11 +73,11 @@ class ctr_contenido {
 		return $contenido = contenido::Lista_contenido_usuario($id);
 	}
 
-	public function generarNotificacion($notificador, $contenido_id, $tipo){
+	public function generarNotificacion($notificador, $contenido_id, $capitulo_id, $tipo){
 		$usuarios = usuario::obtenerUsuariosParaNotificacion($contenido_id);
 
 		while ($notificado = $usuario->fetch_array(MYSQLI_ASSOC)) {
-			notificacion::realizarNotificacion($notificado, $contenido_id, $tipo,$notificador);
+			notificacion::realizarNotificacion($notificado ,$contenido_id,$capitulo_id, $tipo, $notificador);
 		}
 		
 	}

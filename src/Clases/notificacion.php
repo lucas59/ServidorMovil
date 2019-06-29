@@ -38,17 +38,17 @@ class notificacion {
 		return json_encode(array('notificaciones' => $retorno));
 	}
 
-	public function realizarNotificacion($notificado ,$contenido_id, $tipo, $notificador){
+	public function realizarNotificacion($notificado ,$contenido_id,$capitulo_id, $tipo, $notificador){
 		$accion = null;
 		$visto = 0;
 		if($tipo == "comentario"){
-			$accion = "respondio su comentario";
+			$accion = "Un contenido que usted sigue fue comentado.";
 		}else if ($tipo == "reporte"){
-			$accion = "Su comentario fue reportado por";
+			$accion = "Su comentario fue reportado.";
 		}
 
-		$sql = DB::conexion()->prepare("INSERT INTO `notificacion`(accion, visto, contenido_id, notificado_correo, notificador_correo) VALUES(?,?,?,?,?)");
-		$sql->bind_param('sisi',$accion,$visto,$contenido_id,$notificado,$notificador);
+		$sql = DB::conexion()->prepare("INSERT INTO notificacion(accion, visto, notificado_id, notificador_id, capitulo_id, contenido_id) VALUES (?,?,?,?,?,?)");
+		$sql->bind_param('sisi',$accion,$visto,$notificado,$notificador,$capitulo_id,$contenido_id);
 
 		$sql->execute();
 	}

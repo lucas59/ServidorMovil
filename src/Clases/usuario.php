@@ -101,18 +101,18 @@ class usuario{
 
 	}
 
-	public function obtenerUsuariosParaNotificacion($contenido_id){
+	public function obtenerUsuariosParaNotificacion1($contenido_id){
 
-		$sql = DB::conexion()->prepare("SELECT `Usuario_correo`FROM `usuario_contenido` WHERE  `sigue_id` = ?");
-		$sql->bind_param('i', $contenido_id);
-		$sql->execute();
+			$sql = DB::conexion()->prepare("SELECT `Usuario_correo`FROM `usuario_contenido` WHERE  `sigue_id` = ?");
+			$sql->bind_param('i', $contenido_id);
+			$sql->execute();
 
-		$resultado = $sql->get_result();
+			$resultado = $sql->get_result();
 
-		return $resultado; 
+			return $resultado; 
+
 	}
 
-	
 	public function SeguirElemento($correo,$id){
 		$sql=DB::conexion()->prepare("INSERT INTO usuario_contenido (Usuario_correo,sigue_id) VALUES (?,?)");
 		$sql->bind_param("si",$correo,$id);
