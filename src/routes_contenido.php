@@ -44,6 +44,12 @@ return function (App $app){
 		return $validacion;
 	})->setName("Lista_comentario");
 
+	$app->get('/contenido/lista_notificaciones', function($request, $response, $args) use ($container){
+		$correo = $request->getQueryParam("usuario_id");
+		$lista = ctr_contenido::listarNotificaciones($correo);
+		return $lista;
+	})->setName("lista_notificaciones");
+
 	$app->get('/contenido/lista_comentarioSerie',function($request,$response,$args) use ($container){
 		$id=$request->getQueryParam("id");
 		$validacion = ctr_contenido::Lista_ComentarioSerie($id);

@@ -95,6 +95,29 @@ class usuario{
 		return $resultado->fetch_object();
 	}
 	public function nuevoUsuario2($nombre,$apellido,$edad,$correo,$foto){
+		$sql=DB::conexion()->prepare("UPDATE `usuario` SET `foto` = ?, `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ? ");
+		$sql->bind_param("ssiss",$foto,$apellido,$edad,$nombre,$correo);
+		return $sql->execute();
+
+	}
+
+	public function obtenerUsuariosParaNotificacion1($contenido_id){
+
+			$sql = DB::conexion()->prepare("SELECT `Usuario_correo`FROM `usuario_contenido` WHERE  `sigue_id` = ?");
+			$sql->bind_param('i', $contenido_id);
+			$sql->execute();
+
+			$resultado = $sql->get_result();
+
+			return $resultado; 
+
+	}
+
+	public function SeguirElemento($correo,$id){
+		$sql=DB::conexion()->prepare("INSERT INTO usuario_contenido (Usuario_correo,sigue_id) VALUES (?,?)");
+		$sql->bind_param("si",$correo,$id);
+		if ($sql->execute()) {
+			return 1;
 		$sql="";
 		if($foto==""){
 			$sql=DB::conexion()->prepare("UPDATE `usuario` SET `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ?");
@@ -104,7 +127,6 @@ class usuario{
 			$sql->bind_param("ssiss",$foto,$apellido,$edad,$nombre,$correo);
 		}
 		return $sql->execute();
-
+		}
 	}
-
 } ?>

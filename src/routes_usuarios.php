@@ -138,8 +138,11 @@ return function (App $app){
 		return json_encode($myObj);
 	});
 
-
-
+	$app->get('/usuario/notificaciones/{correo}', function($request,$response,$args){
+		$correo = $args['correo'];
+		$notificaciones = ctr_usuario::listarNotificaciones($correo);
+		return $notificaciones;
+	})->setName("Listar_Notificaciones");
 
 
 }?>

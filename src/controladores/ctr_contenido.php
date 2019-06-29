@@ -5,7 +5,9 @@
   */
 require_once '../src/Clases/comentarios.php';
 require_once '../src/Clases/contenido.php';
+require_once '../src/Clases/notificacion.php';
 require_once '../src/Clases/console.php';
+
 class ctr_contenido {
 	public function Comentario($texto,$serie_id,$temporada,$capitulo,$capitulo_id,$contenido_id,$usuario,$fecha,$genero,$titulo_elemento){
 
@@ -25,6 +27,7 @@ class ctr_contenido {
 		$comentario = comentarios::IngresarComentario($texto,$capitulo_id,$contenido_id,$usuario);
 		if($comentario == "1" && $contenido == "1"){
 			return "1";
+			generarNotificacion($usuario, $contenido_id, $capitulo_id,"comentario");
 		}else{
 			return "0";
 		}
@@ -74,6 +77,18 @@ class ctr_contenido {
 		return $contenido = contenido::Lista_contenido_usuario($id);
 	}
 
+	public function generarNotificacion($notificador, $contenido_id, $capitulo_id, $tipo){
+		$usuarios = usuario::obtenerUsuariosParaNotificacion($contenido_id);
+
+		while ($notificado = $usuario->fetch_array(MYSQLI_ASSOC)) {
+			notificacion::realizarNotificacion($notificado ,$contenido_id,$capitulo_id, $tipo, $notificador);
+		}
+		
+	}
+
+	public function listarNotificaciones($correo){
+		return notificacion::listarnotificaciones($correo);
+	}
 }
 
 ?>
