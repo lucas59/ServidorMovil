@@ -87,6 +87,15 @@ class usuario{
 			return false;
 		}
 	}
+
+	public function Lista_elementousuario_peli($id){
+		$sql=DB::conexion()->prepare("SELECT * FROM `usuario_contenido` WHERE Usuario_correo = ? AND sigue_id IN (SELECT id FROM `pelicula`)");
+		$sql->bind_param("s",$id);
+		$sql->execute();
+		$resultado = $sql->get_result();
+		$res = $resultado->fetch_all(MYSQLI_ASSOC);
+		return json_encode(array('peliculas' =>$res));
+	}
 	public function obtenerUsuarioPorToken($token){
 		$sql=DB::conexion()->prepare("SELECT U.* FROM usuario AS U, validacion AS V WHERE U.correo=V.correo AND V.token=?");
 		$sql->bind_param("s",$token);
@@ -103,13 +112,13 @@ class usuario{
 
 	public function obtenerUsuariosParaNotificacion1($contenido_id){
 
-			$sql = DB::conexion()->prepare("SELECT `Usuario_correo`FROM `usuario_contenido` WHERE  `sigue_id` = ?");
-			$sql->bind_param('i', $contenido_id);
-			$sql->execute();
+		$sql = DB::conexion()->prepare("SELECT `Usuario_correo`FROM `usuario_contenido` WHERE  `sigue_id` = ?");
+		$sql->bind_param('i', $contenido_id);
+		$sql->execute();
 
-			$resultado = $sql->get_result();
+		$resultado = $sql->get_result();
 
-			return $resultado; 
+		return $resultado; 
 
 	}
 
@@ -118,15 +127,15 @@ class usuario{
 		$sql->bind_param("si",$correo,$id);
 		if ($sql->execute()) {
 			return 1;
-		$sql="";
-		if($foto==""){
-			$sql=DB::conexion()->prepare("UPDATE `usuario` SET `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ?");
-			$sql->bind_param("siss",$apellido,$edad,$nombre,$correo);
-		}else{
-			$sql=DB::conexion()->prepare("UPDATE `usuario` SET `foto` = ?, `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ? ");
-			$sql->bind_param("ssiss",$foto,$apellido,$edad,$nombre,$correo);
-		}
-		return $sql->execute();
+			$sql="";
+			if($foto==""){
+				$sql=DB::conexion()->prepare("UPDATE `usuario` SET `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ?");
+				$sql->bind_param("siss",$apellido,$edad,$nombre,$correo);
+			}else{
+				$sql=DB::conexion()->prepare("UPDATE `usuario` SET `foto` = ?, `apellido` = ?, `edad` = ?, `nombre` = ? WHERE correo = ? ");
+				$sql->bind_param("ssiss",$foto,$apellido,$edad,$nombre,$correo);
+			}
+			return $sql->execute();
 		}
 	}
 } ?>

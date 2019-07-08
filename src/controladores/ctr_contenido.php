@@ -35,13 +35,20 @@ class ctr_contenido {
 
 	public function Lista_Comentario($id){
 		return $comentario = comentarios::Lista_Contenido($id);
+	}
 
+	public function puntuacion_comentario($id_comentario,$id_persona){
+		return $comentario = comentarios::puntuacion_comentario($id_comentario,$id_persona);
 	}
 
 
 	public function Lista_ComentarioSerie($id){
 		return $comentario = comentarios::Lista_ContenidoSerie($id);
 
+	}
+
+	public function Lista_elementousuario_peli($id){
+		return $usuario = usuario::Lista_elementousuario_peli($id);
 	}
 
 	public function verificarFavorito($email,$id){

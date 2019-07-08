@@ -2,7 +2,7 @@
 /**
   * 
   */
-
+require_once '../src/Clases/console.php';
 class comentarios{
 	private $titulo;
 	private $texto;
@@ -30,38 +30,38 @@ class comentarios{
 		$sql->bind_param('isss',$id,$fecha,$genero,$titulo);
 		if($sql->execute()){
 			if(comentarios::insertarIdEnCine($id)){
-			if ($tipo == 1) {
-				return comentarios::insertarPelicula($id);
-			}else{
-				$serie = comentarios::insertarSerie($id);
-				$temp = comentarios::insertarTemporada($id,$temporada,$capitulo);
-				$cap = comentarios::insertarCapitulo($temporada,$capitulo_id);
-				if($serie == 1 && $cap == 1 && $temp == 1){
-					return "1";
-				}
-				else{
-					return "0";
+				if ($tipo == true) {
+					return comentarios::insertarPelicula($id);
+				}else{
+					$serie = comentarios::insertarSerie($id);
+					$temp = comentarios::insertarTemporada($id,$temporada,$capitulo);
+					$cap = comentarios::insertarCapitulo($temporada,$capitulo_id);
+					if($serie == 1 && $cap == 1 && $temp == 1){
+						return "1";
+					}
+					else{
+						return "0";
+					}
 				}
 			}
-			 }
 		}else{
 			return "0";
 		}
 	}
 
 
-      public static function insertarIdEnCine($id){
-        $sql = DB::conexion()->prepare("INSERT INTO `cine` (`id`) VALUES (?)");
-        $sql->bind_param("i",$id);
-        if ($sql->execute()) {
-        	return true;
-        }else{
-        	return false;
-        }
-    }
+	public static function insertarIdEnCine($id){
+		$sql = DB::conexion()->prepare("INSERT INTO `cine` (`id`) VALUES (?)");
+		$sql->bind_param("i",$id);
+		if ($sql->execute()) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 
-	 public static function insertarPelicula($id){
+	public static function insertarPelicula($id){
 		$sql = DB::conexion()->prepare("INSERT INTO `pelicula` (`id`) VALUES (?)");
 		$sql->bind_param("i",$id);
 		if($sql->execute()){
@@ -83,7 +83,7 @@ class comentarios{
 		}
 	}
 
-		public static  function insertarCapitulo($temporada,$id_capitulo){
+	public static  function insertarCapitulo($temporada,$id_capitulo){
 		$sql = DB::conexion()->prepare("INSERT INTO `capitulo` (`id`,`temporada_id`) VALUES (?,?)");
 		$sql->bind_param("ii",$id_capitulo,$temporada);
 		if($sql->execute()){
@@ -117,9 +117,18 @@ class comentarios{
 		return json_encode(array('Comentarios' => $outp));
 	}
 
-		public function Lista_ContenidoSerie($id){
-		$estado = 0;
-		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE capitulo_id = ? AND estado = ?");
+	public function puntuacion_comentario($id_comentario,$id_persona){
+		$sql = DB::conexion()->prepare("SELECT * FROM usuario_puntuaciones WHERE usuario_correo = ? AND comentario_id = ?");
+		$sql->bind_param('si',$id_persona,$id_comentario);
+		$sql->execute();
+		$result = $sql->get_result();
+		$res = $result->fetch_all(MYSQLI_ASSOC);
+		return json_encode(array('puntuaciones' =>$res));
+	}
+
+	public function Lista_ContenidoSerie($id){
+		$estado = 2;
+		$sql = DB::conexion()->prepare("SELECT * FROM comentario WHERE capitulo_id = ? AND estado < ?");
 		$sql->bind_param('ii',$id,$estado);
 		$sql->execute();
 		
@@ -139,7 +148,7 @@ class comentarios{
 		}
 	}
 
-		public function numero_reportes($id_comentario){
+	public function numero_reportes($id_comentario){
 		$estado = 0;
 		$sql = DB::conexion()->prepare("SELECT estado FROM comentario WHERE id = ?");
 		$sql->bind_param('i',$id_comentario);

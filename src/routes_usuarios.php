@@ -17,7 +17,6 @@ return function (App $app){
 		$pass=$data['pass'];
 		$myObj = new \stdClass();
 		$alta = ctr_usuario::altaUser($email,$pass);
-		echo Console::log("ads",$alta);
 		if($alta==true){
 			$myObj->retorno = true;
 		}else{

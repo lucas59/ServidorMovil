@@ -44,6 +44,13 @@ return function (App $app){
 		return $validacion;
 	})->setName("Lista_comentario");
 
+		$app->get('/contenido/puntuacion_comentario',function($request,$response,$args) use ($container){
+		$id_comentario=$request->getQueryParam("id_comentario");
+		$id_persona = $request->getQueryParam("id_persona");
+		$puntos = ctr_contenido::puntuacion_comentario($id_comentario,$id_persona);
+		return $puntos;
+	})->setName("puntuacion_comentario");
+
 	$app->get('/contenido/lista_notificaciones', function($request, $response, $args) use ($container){
 		$correo = $request->getQueryParam("usuario_id");
 		$lista = ctr_contenido::listarNotificaciones($correo);
@@ -53,6 +60,12 @@ return function (App $app){
 	$app->get('/contenido/lista_comentarioSerie',function($request,$response,$args) use ($container){
 		$id=$request->getQueryParam("id");
 		$validacion = ctr_contenido::Lista_ComentarioSerie($id);
+		return $validacion;
+	})->setName("Lista_comentario");
+
+	$app->get('/contenido/lista_elementosusuario_peli',function($request,$response,$args) use ($container){
+		$id=$request->getQueryParam("id");
+		$validacion = ctr_contenido::Lista_elementousuario_peli($id);
 		return $validacion;
 	})->setName("Lista_comentario");
 

@@ -28,14 +28,14 @@ class notificacion {
 	}
 
 	public function listarnotificaciones($correo){
-		$sql = DB::conexion()->prepare("SELECT * FROM notificacion WHERE usuario_correo = ? ");
+		$sql = DB::conexion()->prepare("SELECT * FROM `comentario` WHERE comentario.contenido_id IN (SELECT usuario_contenido.sigue_id FROM usuario_contenido WHERE usuario_contenido.Usuario_correo = ?)");
 		$sql->bind_param('s',$correo);
 		$sql->execute();
 		
 		$result = $sql->get_result();
 		$retorno = $result->fetch_all(MYSQLI_ASSOC);
 
-		return json_encode(array('notificaciones' => $retorno));
+		return json_encode(array('Comentarios' => $retorno));
 	}
 
 	public function realizarNotificacion($notificado ,$contenido_id,$capitulo_id, $tipo, $notificador){
